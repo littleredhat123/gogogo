@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/AJAX.css" />
+	</head>
+
+	<body>
+		<div id="big">
+			<img src="img/title.png" />
+		</div>
+		<div id="zi">
+			<ul>
+				<li>强强联合 打造高分品牌形象</li>
+				<li>平台共用 实现高效信息传递</li>
+				<li>资源共享 促成庞大市场渠道</li>
+			</ul>
+		</div>
+
+		<div id="tu" class="tu" style="padding: 0 0 250px 0;">
+			<img src="" class="pic" />
+			<img src="" class="pic" />
+			<img src="" class="pic" />
+		</div>
+
+		<div id="hongbao">
+			大红包
+		</div>
+
+		<script src="jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var num = 1;	
+			//JQ改写AJAX方法
+			$.ajax({
+				type: "POST",
+				url: "http://itimio.com/myhome/jyweb/applistfamousbrand.action",
+				data: "pagenum=3&cpage=" + num, //get传参不需要
+				dataType: "json", //获取数据类型
+				success: function(data) {
+					//					console.dir(data);
+					var tu = $(".tu .pic");
+					tu.each(function() {
+						$(this).attr('src', data[$(this).index()].content);
+					})
+
+				}, //成功后执行data为获取的内容（json格式已声明）
+				error: function(jqXHR) {}, //失败后执行 jqxhr为一个xmlhttprequrst对象
+			})
+
+			$(window).scroll(function() {
+
+				var height = $(document).scrollTop();
+				var clientHeight = $(window).height();
+				var xxx = $(".tu img");
+				var lastItemHeight = xxx[xxx.length - 1].offsetTop;
+				if(height + clientHeight > lastItemHeight) {
+					//					alert("111")
+					$.ajax({
+						type: "POST",
+						url: "http://itimio.com/myhome/jyweb/applistfamousbrand.action",
+						data: "pagenum=3&cpage=" + num, //get传参不需要
+						dataType: "json", //获取数据类型
+						success: function(data) {
+							console.dir(data);
+							show1(data)
+
+						}, //成功后执行data为获取的内容（json格式已声明）
+
+					})
+				}
+			})
+
+			function show1(a) {
+				console.dir(a)
+
+				for (var i=0;i<a.length;i++) {
+					var s=$('<img src="" class="pic"/>');
+					s.attr('src', a[i].content);
+					$("#tu").append(s);
+//					$("img").css({"margin-right": "9px"}); 
+//					$("img").css({"margin-top": "9px"}); 
+					
+				}
+			}
+		</script>
+	</body>
+
+</html>

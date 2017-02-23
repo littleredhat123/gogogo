@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/AJAX.css"/>
+	</head>
+	<body>
+		<div id="big">
+			<img src="img/title.png"/>
+		</div>
+		<div id="zi">
+			<ul>
+				<li>强强联合 打造高分品牌形象</li>
+				<li>平台共用 实现高效信息传递</li>
+				<li>资源共享 促成庞大市场渠道</li>
+			</ul>
+		</div>
+		
+		<div id="tu" class="tu" style="padding: 0 0 150px 0;">
+			<img src="" class="pic"/>
+			<img src="" class="pic"/>
+			<img src="" class="pic"/>
+		</div>
+		
+		<div id="hongbao">
+			大红包
+		</div>
+		
+		<script src="jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+    	<script type="text/javascript">
+    	var newarrey;
+    	var num=1;
+//  	
+//  	
+    	function ajax(){
+		 var xhr = window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');
+//		 var xhr = new XMLHttpRequest();
+		 var method ='POST',
+              url = "http://itimio.com/myhome/jyweb/applistfamousbrand.action",
+              aysn = true,
+              data = "pagenum=3&cpage="+num,
+              success = success,
+              error = error;
+              
+                url = url+'?'+data+'&'+new Date().getTime();
+          		xhr.open( method, url , aysn);
+          		xhr.setRequestHeader('content-type' , 'application/x-www-form-urlencoded');
+          		xhr.send(data);
+          		xhr.onreadystatechange = function(){
+                if ( xhr.readyState == 4)
+               {
+                  if ( xhr.status >= 200 && xhr.status<300 )
+                  {
+                      newarrey=JSON.parse(xhr.responseText);
+//                    console.log(newarrey)
+                      if(num==1){ 
+                      	picture(newarrey);
+                      }else{
+                      	jiazai(newarrey)
+                      }
+                     num++
+                  }
+                  else
+                  {
+                      error && error();
+                  }
+               }
+          }
+      }              
+         ajax();   
+         
+         
+         function picture(i){
+         	var divs=document.getElementById("tu");
+         		divs.children[0].src=i[0].content;
+         		divs.children[1].src=i[1].content;
+         		divs.children[2].src=i[2].content;
+//		console.log(i)
+         }
+         
+         //JS滚动条
+//       window.onscroll=function(){
+//       	var height= document.body.scrollTop;//滚动条顶部距离上面的高
+//       	var clientHeight=document.documentElement.clientHeight;//窗口高度即整个页面的高度；
+//       	var xxx= document.getElementsByClassName("tu")[0].children;
+//       	var lastItemHeight=xxx[xxx.length-1].offsetTop;//最后一个元素距离页面顶部的高度
+//			console.dir(height)
+//       	console.dir(lastItemHeight)
+//       	if(height+clientHeight>lastItemHeight){
+//       		ajax();
+//       		}
+////       	console.log("a")
+//       }
+
+          //JQ滚动条
+		$(window).scroll(function(){
+			var height=$(document).scrollTop();  
+			var clientHeight=$(window).height();
+			var xxx=$(".tu img");
+			var lastItemHeight=xxx[xxx.length-1].offsetTop;
+			if(height+clientHeight>lastItemHeight){
+         		ajax();//调用ajax方法
+         		}
+			
+		})
+        
+        function jiazai(a){
+         	var item = document.createElement("div");
+        	item.className = "tu";
+        	var img1 = document.createElement("img");
+        	img1.style.marginRight="9px";
+        	img1.style.marginTop="5px";
+        	img1.className = "pic";
+         	item.appendChild(img1);
+         	var img2 = document.createElement("img");
+         	img2.style.marginRight="7px";
+         	img2.style.marginTop="5px";
+        	img2.className = "pic";
+         	item.appendChild(img2);
+         	var img3 = document.createElement("img");
+         	img3.style.marginTop="5px";
+        	img3.className = "pic";
+         	item.appendChild(img3);
+//       	console.log(a)
+         	item.children[0].src=a[0].content;
+            item.children[1].src=a[1].content;
+            item.children[2].src=a[2].content;
+            
+            var divs=document.getElementById("tu");
+            divs.appendChild(item);
+         	}
+         	
+    	
+    	</script>
+	</body>
+</html>
