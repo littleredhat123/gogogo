@@ -1,0 +1,50 @@
+.calculator .button input {
+  display: block;
+  float: left;
+  margin: 10px;
+  width: 60px;
+  height: 40px;
+}
+
+.calculator .button {
+  margin: 0 auto;
+  width: 320px;
+  overflow: hidden;
+}
+
+.calculator .button input[value=C] {
+  width: 140px;
+}
+
+.calculator .button input[value='0'] {
+  width: 140px;
+}
+
+.calculator .button input[value='='] {
+  height: 100px;
+  float: right;
+}
+
+.calculator input[name=screen] {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  padding-right: 10px;
+  text-align: right;
+  width: 286px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.calculator {
+  display: block;
+  padding-bottom: 10px;
+  width: 400px;
+  background-color: #b5b5b5;
+  text-align: center;
+  overflow: hidden;
+}
+
+.calculator input {
+  font-size: 20px;
+}
